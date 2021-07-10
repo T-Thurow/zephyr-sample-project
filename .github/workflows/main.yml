@@ -4,7 +4,7 @@ name: CI
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the dev branch
+  # Triggers the workflow on push or pull request events
   push:
     branches: [ dev, main ]
   pull_request:
@@ -45,7 +45,16 @@ jobs:
           mkdir west
           cd west
           west init --mr ${ZZEPHYR_VERSION}
-          cd zephyr
+          
+      - name: Cache modules
+        uses: actions/cache@v2
+        with:
+          path: west/modules
+          key: west-modules
+          
+      - name: West update
+        run: |
+          cd west
           west update
           
       - name: Build project
@@ -59,7 +68,7 @@ jobs:
       - name: Upload firmware
         uses: actions/upload-artifact@v2
         with:
-          name: zephyr-image-${ZZEPHYR_BOARD}
+          name: zephyr-image-${{ZZEPHYR_BOARD}}
           path: |
             west/build/zephyr/zephyr.bin
             west/build/zephyr/zephyr.hex
