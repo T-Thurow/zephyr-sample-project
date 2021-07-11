@@ -29,7 +29,7 @@
 
 void main(void)
 {
-	const struct device *dev;
+	const struct device *dev0;
 	bool led_is_on = true;
 	int ret;
 
