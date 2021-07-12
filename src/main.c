@@ -27,6 +27,7 @@
 #define FLAGS	0
 #endif
 
+
 void main(void)
 {
 	const struct device *dev;
